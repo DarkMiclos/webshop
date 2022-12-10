@@ -7,7 +7,7 @@
 
 <template>
   <header>
-    <div id="logo">Webshop</div>
+    <a href="" id="logo">Webshop</a>
     <div id="hamburger" @click="setActive">
       <div class="line"></div>
       <div class="line"></div>

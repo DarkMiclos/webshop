@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from ..models.product import Product
 from ..extensions import db
 
@@ -34,3 +34,8 @@ def delete_product():
   Product.query.filter_by(name = name).delete()
   db.session.commit()
   return '', 200
+
+@product.route('/get_products', methods=['GET'])
+def get_products():
+  products = Product.query.all()
+  return jsonify(products=[i.serialize for i in products])
