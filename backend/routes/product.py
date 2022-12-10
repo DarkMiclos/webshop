@@ -2,9 +2,9 @@ from flask import Blueprint, request, jsonify
 from ..models.product import Product
 from ..extensions import db
 
-product = Blueprint('product', __name__)
+product_routes = Blueprint('product_routes', __name__)
 
-@product.route('/create_product', methods=['POST'])
+@product_routes.route('/create_product', methods=['POST'])
 def create_product():
   data = request.get_json()
   name = data['name']
@@ -15,7 +15,7 @@ def create_product():
   db.session.commit()
   return '', 201
 
-@product.route('/update_product', methods=['POST'])
+@product_routes.route('/update_product', methods=['POST'])
 def update_product():
   data = request.get_json()
   name = data['name']
@@ -27,7 +27,7 @@ def update_product():
   db.session.commit()
   return '', 200
 
-@product.route('/delete_product', methods=['POST'])
+@product_routes.route('/delete_product', methods=['POST'])
 def delete_product():
   data = request.get_json()
   name = data['name']
@@ -35,7 +35,7 @@ def delete_product():
   db.session.commit()
   return '', 200
 
-@product.route('/get_products', methods=['GET'])
+@product_routes.route('/get_products', methods=['GET'])
 def get_products():
   products = Product.query.all()
   return jsonify(products=[i.serialize for i in products])
