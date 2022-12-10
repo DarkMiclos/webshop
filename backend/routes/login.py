@@ -5,7 +5,7 @@ from ..extensions import db
 login = Blueprint('login', __name__)
 
 @login.route('/login', methods=['POST'])
-def register_user():
+def login_user():
   data = request.get_json()
   user_name = data['user_name']
   password = data['password']

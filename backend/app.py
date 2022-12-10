@@ -4,12 +4,14 @@ from .models.user import User
 from .extensions import db
 from .routes.register import register
 from .routes.login import login
+from .routes.product import product
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
 
 app.register_blueprint(register)
 app.register_blueprint(login)
+app.register_blueprint(product)
 
 db.init_app(app)
 
@@ -19,7 +21,7 @@ def initialize():
   return '', 204
 
 #Creates database and initializes it with admin user.
-with app.app_context():
-  db.create_all()
-  db.session.add(User(user_name = 'admin', password = 'admin', role = 'ADMIN'))
-  db.session.commit()
+# with app.app_context():
+#   db.create_all()
+#   db.session.add(User(user_name = 'admin', password = 'admin', role = 'ADMIN'))
+#   db.session.commit()

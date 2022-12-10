@@ -12,4 +12,4 @@ def register_user():
   user = User(user_name = user_name, password = password, role = "USER")
   db.session.add(user)
   db.session.commit()
-  return data
+  return '', 201
