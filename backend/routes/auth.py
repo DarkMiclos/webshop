@@ -14,7 +14,7 @@ def login():
   data = request.json
   user_name = data['username']
   password = data['password']
-  user = User.query.filter_by(user_name = user_name, password = password).first()
+  user = User.query.filter_by(user_name = user_name).first()
   if not user and not check_password_hash(user.password, password):
     return "Invalid credentials."
   login_user(user)
