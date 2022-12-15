@@ -7,10 +7,12 @@ from .routes.product import product_routes
 from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from .models.product import Product
-from flask_login import current_user, LoginManager
+from flask_login import current_user, LoginManager, login_required
 from flask_cors import CORS, cross_origin
 from flask.sessions import SecureCookieSessionInterface
+from dotenv import load_dotenv, find_dotenv
 import stripe
+import os
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
@@ -55,7 +57,9 @@ admin = Admin(app, index_view=MyAdminIndexView())
 admin.add_view(MyModelView(User, db.session))
 admin.add_view(MyModelView(Product, db.session))
 
-stripe.api_key = "sk_test_51JH0reCg3BeqzEoVU0Uo2HJ8s6v2xTRbHAdz9Xyqyo4YSlIFDDMAHdB5uWg8g0PFGEM7xzT62s8JtecnGN24tEM90001ojj3Wv"
+load_dotenv(find_dotenv())
+
+stripe.api_key = os.getenv('STRIPE_SECRET')
 
 #We can check by calling this from the front end if the backend is live
 @app.route('/')
@@ -84,9 +88,21 @@ def checkout():
     )
   except Exception as e:
       return jsonify(error=str(e)), 403
-      
+
   return jsonify({"url": checkout_session["url"]})
 
+
+@app.route('/authenticate', methods=['POST'])
+@login_required
+def authenticate():
+  if(current_user.is_authenticated):
+    return jsonify({
+      'is_authenticated': current_user.is_authenticated,
+      'role': current_user.role
+    })
+  return jsonify({
+    'is_authenticated': current_user.is_authenticated
+  })
 
 #Creates database and initializes it with admin user.
 # with app.app_context():

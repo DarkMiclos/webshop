@@ -21,9 +21,11 @@ def login():
   # token = jwt.encode({'username': user.user_name, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, "mysecret", algorithm="HS256")
   # response = make_response()
   # response.set_cookie('jwt', token, samesite="Strict", expires=datetime.datetime.utcnow() + datetime.timedelta(days=7), httponly=True, path='/', domain="127.0.0.1")
+  print(current_user)
   return jsonify({
     'username': current_user.user_name,
-    'is_authenticated': current_user.is_authenticated
+    'is_authenticated': current_user.is_authenticated,
+    'role': current_user.role
   })
 
 @auth.route('/register', methods=['POST'])

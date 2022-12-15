@@ -20,7 +20,9 @@
         })
         .then(res => {
           store.state.is_authenticated = res.data.is_authenticated
+          store.state.role = res.data.role
           console.log(store.state.is_authenticated)
+          console.log(store.state.role)
         })
         .catch(e => console.log(e))
       }

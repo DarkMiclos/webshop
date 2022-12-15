@@ -8,6 +8,7 @@
         axios.post("/logout")
         .then(res => {
           store.state.is_authenticated = res.data.is_authenticated
+          store.state.role = ""
           console.log(store.state.is_authenticated)
         })
         .catch(e => console.log(e))

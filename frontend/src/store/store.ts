@@ -4,7 +4,8 @@ import { createStore, Store, useStore as baseUseStore } from 'vuex'
 // define your typings for the store state
 export interface State {
   is_authenticated: boolean,
-  stripeLoaded: Ref<boolean>
+  stripeLoaded: Ref<boolean>,
+  role: string
 }
 
 // define injection key
@@ -13,7 +14,8 @@ export const key: InjectionKey<Store<State>> = Symbol()
 export const store = createStore<State>({
   state: {
     is_authenticated: false,
-    stripeLoaded: ref(false)
+    stripeLoaded: ref(false),
+    role: ""
   },
   getters: {
     getIsAuthenticated(state) {
