@@ -23,6 +23,7 @@
           store.state.role = res.data.role
           console.log(store.state.is_authenticated)
           console.log(store.state.role)
+          window.location.href = "http://127.0.0.1:5173/"
         })
         .catch(e => console.log(e))
       }
