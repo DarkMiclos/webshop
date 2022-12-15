@@ -1,13 +1,31 @@
-<script setup lang="ts">
-  function setActive() {
-    let navbar = document.getElementById("nav-bar");
-    navbar?.classList.toggle("active");
-  }
+<script lang="ts">
+  import axios from "axios"
+  import { defineComponent } from "vue";
+  import { key, store } from '../store/store'
+  export default defineComponent({
+    methods: {
+      logout() {
+        axios.post("/logout")
+        .then(res => {
+          store.state.is_authenticated = res.data.is_authenticated
+          console.log(store.state.is_authenticated)
+        })
+        .catch(e => console.log(e))
+      },
+      setActive() {
+        let navbar = document.getElementById("nav-bar");
+        navbar?.classList.toggle("active");
+      },
+      isAuthenticated() {
+        return store.state.is_authenticated;
+      }
+    }
+  })
 </script>
 
 <template>
   <header>
-    <a href="" id="logo">Webshop</a>
+    <router-link to="/" id="logo">Webshop</router-link>
     <div id="hamburger" @click="setActive">
       <div class="line"></div>
       <div class="line"></div>
@@ -16,16 +34,19 @@
     <nav id="nav-bar">
       <ul>
         <li>
-          <a href="" class="active" >Home</a>
+          <router-link to="/" class="active">Home</router-link>
         </li>
         <li>
-          <a href="">About</a>
+          <router-link to="/about" >About</router-link>
         </li>
         <li>
-          <a href="">Login</a>
+          <router-link to="/login" v-if="isAuthenticated() === false">Login</router-link>
         </li>
         <li>
-          <a href="">Register</a>
+          <router-link to="/register" v-if="isAuthenticated() === false">Register</router-link>
+        </li>
+        <li>
+          <router-link to="/" @click="logout" v-if="isAuthenticated() === true">Logout</router-link>
         </li>
       </ul>
     </nav>
@@ -34,7 +55,7 @@
 
 <style scoped>
 header {
-  height: 80px;
+  height: 10vh;
   background: #11101b;
   display: flex;
   align-items: center;
@@ -104,7 +125,7 @@ header {
   #nav-bar {
     height: 450px;
     position: absolute;
-    top: 80px;
+    top: 10vh;
     left: 0;
     right: 0;
     width: 100vw;
